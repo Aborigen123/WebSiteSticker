@@ -1,0 +1,31 @@
+.footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	height: 50px;
+	background-color: #157c23;
+	padding: 15px;
+}
+
+.error {
+	color: red;
+}
+
+.navbar .navbar-search .dropdown-menu { min-width: 25px; }
+.dropdown-menu .label-icon { margin-left: 5px; }
+.btn-outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .5s;
+}
+
+.id{
+	 text-align: end;
+	 
+}
+.header{
+	background-color: #157c23;}
+	
+	.btn-product{
+	width: 100%;
+}
