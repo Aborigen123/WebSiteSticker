@@ -1,5 +1,6 @@
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
   <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+  <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row">
@@ -62,6 +63,10 @@
     </div>
   </div>
 </div> -->
+
+
+
+
 <div class="container">
     <div class="row">
 <c:forEach items="${stickerList}" var="sticker">
@@ -83,8 +88,8 @@
 								<label>Topic sticker: ${sticker.price}</label></h3>
 							</div>
 						</div>
-						<p>${sticker.aboutSticker}</p>
-						<p></p>
+						<p>Description sticker:${sticker.aboutSticker}</p>
+						<p>User seller:${sticker.user.firstName}</p>
 						<div class="row">
 							<div class="col-md-6">
 								<a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span> order</a> 

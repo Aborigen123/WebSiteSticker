@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +44,7 @@ public class Sticker extends BaseEntity {
 	@Column(name = "sticker_image")
 	private String stickerImage;
 	
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {
 			CascadeType.DETACH, 
 			CascadeType.MERGE, 
@@ -52,6 +54,16 @@ public class Sticker extends BaseEntity {
 	
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
+
+	public Sticker(String name) {
+		
+		this.name = name;
+		this.price = price;
+		this.stickerType = stickerType;
+		this.aboutSticker = aboutSticker;
+	}
+	
+	
 	
 
 }

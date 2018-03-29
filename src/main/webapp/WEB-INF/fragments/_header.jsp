@@ -44,7 +44,9 @@
  
            
         <ul class="nav navbar-nav navbar-right" style="width: 300px;" >
-     
+     <sec:authorize access="hasRole('ROLE_ADMIN')">
+<a href="/admin">Admin</a>
+</sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
 			
 		            <li><a href="/login"  style="color:#ffffff"><span class="glyphicon glyphicon-log-in"  style="color:#ffffff"></span>Login</a></li>

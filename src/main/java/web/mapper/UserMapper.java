@@ -4,6 +4,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import web.domain.BlockReload;
 import web.domain.EditUserRequest;
 import web.domain.RegisterRequest;
 import web.domain.UserProfileRequest;
@@ -62,6 +63,20 @@ public interface UserMapper {
 		entity.setPassword(request.getPassword()); // <----
 		entity.setRole(Role.ROLE_USER);
 		return entity;
+	}
+	
+	public static  UserEntity setChangeBlock(BlockReload br) {
+		UserEntity entity = new UserEntity();
+		entity.setBlock(br.getBlock());
+		
+		return entity;
+	}
+	
+	public static  BlockReload getChangeBlock(UserEntity entity) {
+		BlockReload br = new BlockReload();
+		br.setBlock(entity.getBlock());
+		
+		return br;
 	}
 	
 }

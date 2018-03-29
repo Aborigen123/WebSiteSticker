@@ -1,5 +1,8 @@
 package web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -7,8 +10,10 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import web.entity.Sticker;
 import web.entity.UserEntity;
 import web.entity.enumeration.Role;
+import web.repository.StickerRepository;
 import web.repository.UserRepository;
 
 @SpringBootApplication
@@ -22,6 +27,9 @@ public class SpringBootConsulttionTestProjectApplication extends SpringBootServl
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(SpringBootConsulttionTestProjectApplication.class, args);
 		addAdmin(context);
+		addSticker(context);
+		addUser(context);
+		
 	}
 	
 	static void addAdmin(ConfigurableApplicationContext context) {
@@ -40,6 +48,51 @@ public class SpringBootConsulttionTestProjectApplication extends SpringBootServl
 			
 			userRepository.save(entity);
 		}
+	}
+	
+	static void addUser(ConfigurableApplicationContext context) {
+		UserRepository userRepository = context.getBean(UserRepository.class);
+		UserEntity user = userRepository.findOne(1);
+		
+		if(user == null) {
+			userRepository.save(getUser());
+		}
+		
+	}
+	
+	private static List<UserEntity> getUser(){
+		List<UserEntity> user = new ArrayList<>();
+		
+		user.add(new UserEntity("ib", "123","FirstName","SecondName",12, "data:image/png;base64,12442.png"));
+	
+		
+		
+		return user;
+	}
+	
+	
+	static void addSticker(ConfigurableApplicationContext context) {
+		StickerRepository stickerRepository = context.getBean(StickerRepository.class);
+		Sticker carentity = stickerRepository.findOne(1);
+		
+		if(carentity == null) {
+			stickerRepository.save(getStickers());
+		}
+		
+	}
+	
+	private static List<Sticker> getStickers(){
+		List<Sticker> sticker = new ArrayList<>();
+//		
+//		sticker.add(new Sticker("BMW",5,"holo","Car","data:image/png;base64,12442.png"));
+//		sticker.add(new Sticker("Rand Rover",8,"holo","Car","12442.png"));
+//		sticker.add(new Sticker("lada",21,"holo","Car","12442.png"));
+//		sticker.add(new Sticker("Audi",45,"holo","Car","12442.png"));
+//		sticker.add(new Sticker("Mazda",88,"holo","Car","12442.png"));
+		
+		
+		
+		return sticker;
 	}
 	
 }

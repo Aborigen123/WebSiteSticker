@@ -6,17 +6,23 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import web.domain.BlockReload;
+import web.domain.EditUserRequest;
 import web.domain.LoginRequest;
 import web.domain.RegisterRequest;
 import web.entity.Sticker;
+import web.entity.UserEntity;
 import web.entity.enumeration.Country;
+import web.mapper.StickerMapper;
 import web.mapper.UserMapper;
 import web.service.StickerService;
 import web.service.UserService;
@@ -39,7 +45,7 @@ public class BaseController {
 		}
 		
 		model.addAttribute("stickerList", sticker);
-		return "home";
+	return "home";
 	}
 	
 	@GetMapping("/login")
@@ -70,5 +76,25 @@ public class BaseController {
 		model.addAttribute("countries", Country.values());
 		return "redirect:/login";
 	}
+	
+	@GetMapping("/admin")
+		public String showAdmin(Model model) {
+		model.addAttribute("findAllUsers", userService.findUserAll());
+		return "admin";
+	}
+	
+	@GetMapping("/admin")
+	public String changeBlock(@PathVariable("userId") int userId) {
+userService.findUserById(userId);
+UserEntity entity = new UserEntity();
+BlockReload request = UserMapper.getChangeBlock(entity);
+
+ request.setBlock(true);
+ 
+UserEntity user = UserMapper.setChangeBlock(request);
+
+userService.saveUser(user);
 		
+	return "redirect:/admin";
+}
 }

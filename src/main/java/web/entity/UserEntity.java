@@ -10,6 +10,7 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,6 +40,21 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
+	@Column(name = "block1")
+	private Boolean block = false;
+	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Sticker> cars = new ArrayList<>();
+
+	public UserEntity(String email, String password, String firstName, String lastName, int age, String imagePath) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.imagePath = imagePath;
+	}
+	
+	
 }

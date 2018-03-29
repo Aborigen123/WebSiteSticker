@@ -22,6 +22,7 @@ public class RegisterRequest {
 	@NotEmpty private String passwordConfirmation;
 	 private Country country;
 	private Role role;
+	private Boolean block;
 	
 
 }
