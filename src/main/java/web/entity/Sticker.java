@@ -55,13 +55,24 @@ public class Sticker extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
 
-	public Sticker(String name) {
-		
+
+	public Sticker(String name, BigDecimal price, StickerType stickerType, AboutSticker aboutSticker,
+			String stickerImage, UserEntity user) {
 		this.name = name;
 		this.price = price;
 		this.stickerType = stickerType;
 		this.aboutSticker = aboutSticker;
+		this.stickerImage = stickerImage;
+		this.user = user;
 	}
+
+
+	
+
+
+
+
+
 	
 	
 	

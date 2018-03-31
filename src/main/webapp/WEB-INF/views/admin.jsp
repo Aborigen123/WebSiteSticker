@@ -11,11 +11,24 @@
 </sec:authorize>
 
 </sec:authorize>
-<ul>
+
 <h2>All users</h2>
 <c:forEach items = "${findAllUsers}" var = "user">
-<li>${user.id} | ${user.email} | ${user.firstName} | ${user.lastName} | ${user.age}| ${user.role} | ${user.phoneNumber} |<br>
-<a href="${pageContext.request.contextPath}/delete/${user.id}">block</a>
-</li>
+<div class="container">
+<div class="row">
+
+<table class="table table-bordered">
+<thead>
+<tr>
+
+<th>${user.id} </th>
+<th>${user.email} </th>
+<th>${user.firstName} </th>
+<th>${user.lastName} </th>
+<th>${user.age}</th>
+<th>${user.role}</th>
+<th>${user.phoneNumber}</th>
+<th> <a href="${pageContext.request.contextPath}/admin/${user.id}">block</a></th>
+<%-- <th><a href="${pageContext.request.contextPath}/delete">block</a></th> --%>
+</tr></thead></table></div></div>
 </c:forEach>
-</ul>

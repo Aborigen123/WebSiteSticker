@@ -10,5 +10,5 @@ import lombok.Setter;
 @Getter @Setter
 public class BlockReload {
 
-	private Boolean block;
+	private Boolean block = false;
 }

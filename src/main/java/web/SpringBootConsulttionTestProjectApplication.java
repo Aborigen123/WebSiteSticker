@@ -12,7 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import web.entity.Sticker;
 import web.entity.UserEntity;
+import web.entity.enumeration.AboutSticker;
 import web.entity.enumeration.Role;
+import web.entity.enumeration.StickerType;
 import web.repository.StickerRepository;
 import web.repository.UserRepository;
 
@@ -83,13 +85,10 @@ public class SpringBootConsulttionTestProjectApplication extends SpringBootServl
 	
 	private static List<Sticker> getStickers(){
 		List<Sticker> sticker = new ArrayList<>();
-//		
-//		sticker.add(new Sticker("BMW",5,"holo","Car","data:image/png;base64,12442.png"));
-//		sticker.add(new Sticker("Rand Rover",8,"holo","Car","12442.png"));
-//		sticker.add(new Sticker("lada",21,"holo","Car","12442.png"));
-//		sticker.add(new Sticker("Audi",45,"holo","Car","12442.png"));
-//		sticker.add(new Sticker("Mazda",88,"holo","Car","12442.png"));
 		
+		for(int i =0; i<50; i++) {
+		sticker.add(new Sticker("BMW"+ i,null , StickerType.Holo, AboutSticker.Car, null, null));
+		}
 		
 		
 		return sticker;

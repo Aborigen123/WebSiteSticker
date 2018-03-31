@@ -65,18 +65,18 @@ public interface UserMapper {
 		return entity;
 	}
 	
-	public static  UserEntity setChangeBlock(BlockReload br) {
-		UserEntity entity = new UserEntity();
-		entity.setBlock(br.getBlock());
-		
-		return entity;
-	}
-	
-	public static  BlockReload getChangeBlock(UserEntity entity) {
-		BlockReload br = new BlockReload();
-		br.setBlock(entity.getBlock());
-		
-		return br;
-	}
-	
+//	public static  UserEntity setChangeBlock(BlockReload br) {
+//		UserEntity entity = new UserEntity();
+//		entity.setBlock(br.getBlock());
+//		
+//		return entity;
+//	}
+//	
+//	public static  BlockReload getChangeBlock(UserEntity entity) {
+//		BlockReload br = new BlockReload();
+//		br.setBlock(entity.getBlock());
+//		
+//		return br;
+//	}
+
 }

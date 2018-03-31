@@ -42,10 +42,37 @@
             </div>
 </div>
  
-           
+<sec:authorize access="isAuthenticated()">
+
+  <div class="container-fluid">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart" style="color:#ffffff"></span> <p style="color:#ffffff">7 - Items</p><span class="caret"style="color:#ffffff"></span></a>
+          <ul class="dropdown-menu dropdown-cart" role="menu">
+              <li>
+                  <span class="item">
+                    <span class="item-left">
+                       <!--  <img src="http://lorempixel.com/50/50/" alt="" /> -->
+                        <span class="item-info">
+                        
+                        </span>
+                    </span>
+                    <span class="item-right">
+                        <button class="btn btn-xs btn-danger pull-right">x</button>
+                    </span>
+                </span>
+              </li>
+              
+              <li class="divider"></li>
+              <li><a class="text-center" href="">Buy</a></li>
+          </ul>
+        </li>
+   </ul></div>
+      </sec:authorize>
         <ul class="nav navbar-nav navbar-right" style="width: 300px;" >
      <sec:authorize access="hasRole('ROLE_ADMIN')">
-<a href="/admin">Admin</a>
+<a href="/admin"style="color:#ffffff">Admin</a>
 </sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
 			

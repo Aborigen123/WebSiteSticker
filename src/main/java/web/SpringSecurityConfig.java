@@ -53,7 +53,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			.exceptionHandling().accessDeniedPage("/")
 		.and()
-			.sessionManagement().maximumSessions(1);
+			.sessionManagement().maximumSessions(1)
+			.and().and().csrf().disable();
 	}
 	
 	@Override

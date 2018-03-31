@@ -3,10 +3,14 @@ package web.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import web.entity.Sticker;
 import web.entity.UserEntity;
 import web.repository.UserRepository;
 import web.service.UserService;
@@ -54,5 +58,17 @@ public class UserServiceImpl implements UserService {
 		
 		return userRepository.findAll();
 	}
+	@Override
+	public UserEntity blockUser(int id) {
+		
+		UserEntity user = userRepository.findOne(id);
+		
+		user.setBlock(true);
+		 
+		userRepository.save(user);
+				 
+		return user;
+	}
+
 
 }

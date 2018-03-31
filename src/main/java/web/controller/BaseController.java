@@ -6,6 +6,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +36,45 @@ public class BaseController {
 	@Autowired StickerService stickerService;
 	@Autowired private UserService userService;
 	
+	
+	@GetMapping("asfasfasf/random")
+		public String random() {
+			
+			for(int i = 0; i<40; i++) {
+			Sticker sticker = new Sticker();
+			sticker.setName("Name #"+1);
+			
+			stickerService.saveSticker(sticker);
+			
+		}
+		
+		return "";
+	}
+	
+	
+	
 	@GetMapping({"/", "/home"})
-	public String shoHome(Model model) throws IOException {
+	public String shoHome(Model model, @PageableDefault Pageable pageable) throws IOException {
+//			for(int i = 0; i<40; i++) {
+//				Sticker sticker = new Sticker();
+//				sticker.setName("Name #"+1);
+//				
+//				stickerService.saveSticker(sticker);
+//				
+//			}
+	//	Sticker stickerRandom = stickerService.random();
+		
+		Page<Sticker> page = stickerService.findAllStickerByPage(pageable);
+		
+		int currentPage = page.getNumber();
+		int begin = Math.max(1, currentPage - 5);
+		int end = Math.min(begin + 5, page.getNumber());
+		
+		
+		
+		
+		
+		
 		List<Sticker> sticker = stickerService.findAllSticker();
 		for(int i = 0; i < sticker.size(); i++) {
 			String image = sticker.get(i).getStickerImage();
@@ -44,7 +84,16 @@ public class BaseController {
 							image));
 		}
 		
+		
+		
 		model.addAttribute("stickerList", sticker);
+		model.addAttribute("stickersList", page);
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", currentPage);
+		model.addAttribute("stickerListByPageSize",page.getContent());
+		
+		
 	return "home";
 	}
 	
@@ -83,17 +132,16 @@ public class BaseController {
 		return "admin";
 	}
 	
-	@GetMapping("/admin")
+	@GetMapping("/admin/{userId}")
 	public String changeBlock(@PathVariable("userId") int userId) {
-userService.findUserById(userId);
-UserEntity entity = new UserEntity();
-BlockReload request = UserMapper.getChangeBlock(entity);
 
- request.setBlock(true);
- 
-UserEntity user = UserMapper.setChangeBlock(request);
 
-userService.saveUser(user);
+//BlockReload request = UserMapper.getChangeBlock(entity);
+//
+// request.setBlock(true);
+// 
+//UserEntity user = UserMapper.setChangeBlock(request);
+UserEntity user = userService.blockUser(userId);
 		
 	return "redirect:/admin";
 }

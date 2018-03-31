@@ -1,6 +1,16 @@
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
   <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
   <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+  <script src="${rootUrl}/resources/js/axios.min.js"></script>
+<script src="${rootUrl}/resources/js/vue.min.js"></script>
+  <script>
+new Vue({
+	
+});
+
+
+</script>
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  -->
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row">
@@ -90,9 +100,10 @@
 						</div>
 						<p>Description sticker:${sticker.aboutSticker}</p>
 						<p>User seller:${sticker.user.firstName}</p>
+						
 						<div class="row">
 							<div class="col-md-6">
-								<a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span> order</a> 
+								<a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span>add to basket</a> 
 							</div>
 							<div class="col-md-6">
 								<a href="#" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></div>
@@ -101,14 +112,52 @@
 						<p> </p>
 					</div></div></div>
 				
-			</c:forEach></div></div>
+			</c:forEach></div>
 <br>
 
-<%-- <ul>
-	<c:forEach items="${stickerList}" var="sticker">
-		<li>
-			<img alt="sticker" src="data:image/png;base64, ${sticker.stickerImage}" width="300px">
-			| ${sticker.name} | ${sticker.price}
-		</li>
-	</c:forEach>
-</ul> --%>
+
+<c:url var = "firstUrl" value="/pages?page=0" />
+<c:url var = "lastUrl" value="/pages?page=${stickersList.totalPages}" />
+<c:url var = "prevUrl" value="/pages?page=${currentIndex - 1}" />
+<c:url var = "nextUrl" value="/pages?page=${currentIndex + 1}" />
+
+<div class = "container">
+<div class="row">
+<ul class = "pagination">
+<c:choose>
+<c:when test="${currentIndex == 0}">
+<li class = "disabled"><a href="#">&lt;&lt;</a></li>
+<li class = "disabled"><a href="#">&lt;</a></li>
+<li class = "active"><a href="${firstUrl}">1</a></li>
+</c:when>
+<c:otherwise>
+<li><a href="${firstUrl}">&lt;&lt;</a></li>
+<li><a href="${prevUrl}">&lt;</a></li>
+</c:otherwise>
+</c:choose>
+
+<c:forEach var = "i" begin="${beginIndex}" end="${endIndex}">
+<c:url var = "pageUrl" value="${pageContext.request.contextPath}/pages?page=${i+1}"/>
+<c:choose>
+<c:when test="${i == currentIndex}">
+<li class="active"><a href="#"><c:out value="${i+1 }"/></a></li>
+</c:when>
+<c:otherwise>
+<li><a href="${pageUrl}"><c:out value="${i + 1}"/></a></li>
+</c:otherwise>
+</c:choose>
+</c:forEach>
+
+<c:choose>
+<c:when test = "${currentIndex == stickersList.totalPages}">
+<li class="disabled"><a href="#">&gt;</a></li>
+<li class="disabled"><a href="#">&gt;&gt;</a></li>
+</c:when>
+<c:otherwise>
+<li><a href="${nextUrl}">&gt;</a></li>
+<li><a href="${lastUrl}">&gt;&gt;</a></li>
+</c:otherwise>
+</c:choose>
+</ul>
+</div>
+</div></div>
