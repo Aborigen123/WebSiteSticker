@@ -1,6 +1,11 @@
-  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-  <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-  <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles-extras" prefix="tilesx" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+<%--  <%@ taglib uri="WEB-INF/tags/implicit.tag" prefix="custom"%>  --%>
   <script src="${rootUrl}/resources/js/axios.min.js"></script>
 <script src="${rootUrl}/resources/js/vue.min.js"></script>
   <script>
@@ -64,17 +69,40 @@ new Vue({
   </div>
 
 </div></div></div>
-<!-- <div class="panel panel-default">
-  <div class="panel-body">
-    <div class="row">
-   		<div class="col-md-10 col-md-offset-1">
-    		
-   		</div>
-    </div>
-  </div>
-</div> -->
 
 
+<form action="/search">
+<input type="text" name="search">
+<input type="submit" value="Search">
+</form>
+
+ <%-- <div class = "col-3">
+<div class="row">
+<div class = "col-6 text-center">
+<button class="dropdown-toggle btn btn-outline-primary btn-sm" type="button" data-toggle="dropdown">Sort
+</button>
+<div class="dropdown-menu">
+<custom:sort innerHtml="Name asc" paramValue="name"/>
+<custom:sort innerHtml="Name desc" paramValue="name,desc"/>
+</div>
+</div></div></div>  --%>
+
+<%-- <c:forEach items="${stickerList}" var = "stickeName">
+${stickeName.id} | ${stickeName.name} | ${stickeName.price}
+</c:forEach> --%>
+
+
+<%--   	<form action="/select" 
+					>
+<label class="control-label">Choose your type sticker</label>
+							<form:select path="stickerType" cssClass="form-control">
+								<c:forEach items="${select}" var="st">
+									<form:option value="${st}">${st}</form:option>
+								</c:forEach>
+							</form:select>
+
+</form>
+ --%> 
 
 
 <div class="container">
@@ -100,18 +128,27 @@ new Vue({
 						</div>
 						<p>Description sticker:${sticker.aboutSticker}</p>
 						<p>User seller:${sticker.user.firstName}</p>
-						
+					<sec:authorize access="isAuthenticated()">
 						<div class="row">
 							<div class="col-md-6">
 								<a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span>add to basket</a> 
 							</div>
+							<c:choose>
+							<c:when test="${!sticker.user.block}">
 							<div class="col-md-6">
-								<a href="#" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></div>
+								<a href="${pageContext.request.contextPath}/buy/${sticker.id}" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></div>
+						</c:when>
+						<c:otherwise>
+							<div class="col-md-6">
+						<a href="/buy" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> You block</a></div>
+						</c:otherwise>
+							</c:choose>
 						</div>
+					</sec:authorize>
 
 						<p> </p>
 					</div></div></div>
-				
+			
 			</c:forEach></div>
 <br>
 

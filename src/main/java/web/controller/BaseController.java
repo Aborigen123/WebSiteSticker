@@ -17,16 +17,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 import web.domain.BlockReload;
 import web.domain.EditUserRequest;
 import web.domain.LoginRequest;
 import web.domain.RegisterRequest;
+import web.domain.ShowSelect;
+import web.domain.StickerNameFilter;
 import web.entity.Sticker;
 import web.entity.UserEntity;
 import web.entity.enumeration.Country;
+import web.entity.enumeration.StickerType;
 import web.mapper.StickerMapper;
 import web.mapper.UserMapper;
+import web.repository.StickerRepository;
 import web.service.StickerService;
 import web.service.UserService;
 import web.service.utils.CustomFileUtils;
@@ -37,32 +43,9 @@ public class BaseController {
 	@Autowired private UserService userService;
 	
 	
-	@GetMapping("asfasfasf/random")
-		public String random() {
-			
-			for(int i = 0; i<40; i++) {
-			Sticker sticker = new Sticker();
-			sticker.setName("Name #"+1);
-			
-			stickerService.saveSticker(sticker);
-			
-		}
-		
-		return "";
-	}
-	
-	
-	
 	@GetMapping({"/", "/home"})
 	public String shoHome(Model model, @PageableDefault Pageable pageable) throws IOException {
-//			for(int i = 0; i<40; i++) {
-//				Sticker sticker = new Sticker();
-//				sticker.setName("Name #"+1);
-//				
-//				stickerService.saveSticker(sticker);
-//				
-//			}
-	//	Sticker stickerRandom = stickerService.random();
+
 		
 		Page<Sticker> page = stickerService.findAllStickerByPage(pageable);
 		
@@ -72,7 +55,10 @@ public class BaseController {
 		
 		
 		
-		
+		ShowSelect ss = new ShowSelect();
+		StickerType[] st;
+		st = StickerType.values();
+
 		
 		
 		List<Sticker> sticker = stickerService.findAllSticker();
@@ -85,7 +71,7 @@ public class BaseController {
 		}
 		
 		
-		
+		model.addAttribute("select", st);
 		model.addAttribute("stickerList", sticker);
 		model.addAttribute("stickersList", page);
 		model.addAttribute("beginIndex", begin);
@@ -97,10 +83,35 @@ public class BaseController {
 	return "home";
 	}
 	
-	@GetMapping("/login")
-	public String showLogin(Model model) {
-		model.addAttribute("loginModel", new LoginRequest());
-		return "login";
+	
+//@PostMapping({"/", "/home"})
+//	public String showHome(Model model) {
+//			
+//	model.addAttribute("stickerTypes1", StickerType.values());
+//			return "redirect:/home";
+//			}	
+//			
+	@GetMapping("/search")
+	public String showSelect(Model model, @PageableDefault Pageable pageable, @RequestParam("search") String search) throws IOException {
+		Page<Sticker> page = stickerService.findStickerByName(pageable, new StickerNameFilter(search));//search
+		List<Sticker> sticker = stickerService.findAllSticker();
+		for(int i = 0; i < sticker.size(); i++) {
+			String image = sticker.get(i).getStickerImage();
+			sticker.get(i).setStickerImage(
+					CustomFileUtils.getImage(
+							"sticker_" + sticker.get(i).getId(), 
+							image));
+		}
+		model.addAttribute("stickerList", page.getContent());
+		return "home";
+	}
+	
+	@GetMapping("/select")
+	public String showSelectDrop( Model model) throws IOException {
+		
+		model.addAttribute("select", StickerType.values());
+		
+		return "home";
 	}
 	
 	@GetMapping("/register")
@@ -126,6 +137,8 @@ public class BaseController {
 		return "redirect:/login";
 	}
 	
+
+	
 	@GetMapping("/admin")
 		public String showAdmin(Model model) {
 		model.addAttribute("findAllUsers", userService.findUserAll());
@@ -135,14 +148,27 @@ public class BaseController {
 	@GetMapping("/admin/{userId}")
 	public String changeBlock(@PathVariable("userId") int userId) {
 
-
-//BlockReload request = UserMapper.getChangeBlock(entity);
-//
-// request.setBlock(true);
-// 
-//UserEntity user = UserMapper.setChangeBlock(request);
 UserEntity user = userService.blockUser(userId);
 		
 	return "redirect:/admin";
 }
+	
+	@GetMapping("/login")
+	public String showLogin(Model model) {
+		model.addAttribute("loginModel", new LoginRequest());
+		return "login";
+	}
+	
+	@GetMapping("/buy/{stickerId}")
+	public String buy(Model model,@PathVariable("stickerId") int stickerId) {
+		
+		//Sticker sticker = stickerService.findUserById(stickerId);
+		stickerService.deleteByBuy(stickerId);
+
+		    
+		return "redirect:/";
+	}
+	
+
+	
 }

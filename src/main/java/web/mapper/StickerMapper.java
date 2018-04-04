@@ -1,6 +1,7 @@
 package web.mapper;
 
 import web.domain.CreateAdvRequest;
+import web.domain.ShowSelect;
 import web.entity.Sticker;
 
 public interface StickerMapper {
@@ -15,4 +16,19 @@ public interface StickerMapper {
 		sticker.setStickerImage(advRequest.getStickerImage().getOriginalFilename());
 		return sticker;
 	}
+	
+	
+	public static  Sticker getStickerT(ShowSelect ss) {
+		Sticker sticker = new Sticker();
+	sticker.setStickerType(ss.getStickerType());
+	
+	return sticker;
+}
+
+public static  ShowSelect setStickerT(Sticker sticker) {
+	ShowSelect ss = new ShowSelect();
+	ss.setStickerType(sticker.getStickerType());
+	
+	return ss;
+}
 }

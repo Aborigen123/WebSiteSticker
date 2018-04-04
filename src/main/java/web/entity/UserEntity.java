@@ -47,7 +47,6 @@ public class UserEntity extends BaseEntity {
 	private List<Sticker> cars = new ArrayList<>();
 
 	public UserEntity(String email, String password, String firstName, String lastName, int age, String imagePath) {
-		super();
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;

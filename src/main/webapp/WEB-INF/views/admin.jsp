@@ -25,9 +25,8 @@
 <th>${user.email} </th>
 <th>${user.firstName} </th>
 <th>${user.lastName} </th>
-<th>${user.age}</th>
 <th>${user.role}</th>
-<th>${user.phoneNumber}</th>
+<th>${user.block}</th>
 <th> <a href="${pageContext.request.contextPath}/admin/${user.id}">block</a></th>
 <%-- <th><a href="${pageContext.request.contextPath}/delete">block</a></th> --%>
 </tr></thead></table></div></div>
