@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<%--  <%@ taglib uri="WEB-INF/tags/implicit.tag" prefix="custom"%>  --%>
   <script src="${rootUrl}/resources/js/axios.min.js"></script>
 <script src="${rootUrl}/resources/js/vue.min.js"></script>
   <script>
@@ -91,19 +90,24 @@ new Vue({
 ${stickeName.id} | ${stickeName.name} | ${stickeName.price}
 </c:forEach> --%>
 
-
-<%--   	<form action="/select" 
-					>
+<%--  <--select problem here --%>
+ <%--  <form action="/select"  > 
+  		
+					
 <label class="control-label">Choose your type sticker</label>
-							<form:select path="stickerType" cssClass="form-control">
-								<c:forEach items="${select}" var="st">
-									<form:option value="${st}">${st}</form:option>
-								</c:forEach>
+							<form:select path="StickerType" cssClass="form-control">
+									<form:option items="${select}" var ="st"> </form:option>
+										<form:option value="${st}"></form:option>
 							</form:select>
 
-</form>
- --%> 
+ </form>   --%>
 
+<%-- <form>
+<form:select path="stickerType">
+<form:options items="${select}"/>
+<input type="submit" value="Select">
+</form:select>
+</form> --%>
 
 <div class="container">
     <div class="row">

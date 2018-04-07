@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,20 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import web.domain.CreateAdvRequest;
 import web.domain.EditUserRequest;
 import web.domain.UserProfileRequest;
+import web.entity.ActivityOrder;
+import web.entity.HistorySell;
 import web.entity.Sticker;
+import web.entity.StickerSafe;
 import web.entity.UserEntity;
 import web.entity.enumeration.AboutSticker;
 import web.entity.enumeration.StickerType;
+import web.mapper.HistorySellMapper;
 import web.mapper.StickerMapper;
+import web.mapper.StickerSafeMapper;
 import web.mapper.UserMapper;
+import web.service.ActivityOrderService;
+import web.service.HistorySellService;
+import web.service.StickerSafeService;
 import web.service.StickerService;
 import web.service.UserService;
 import web.service.utils.CustomFileUtils;
@@ -34,6 +43,9 @@ public class UserController {
 
 	@Autowired UserService userService;
 	@Autowired StickerService stickerService;
+	@Autowired ActivityOrderService activityOrderService;
+	@Autowired HistorySellService historySellService;
+	@Autowired StickerSafeService stickerSafeService;
 	
 	@GetMapping
 	public String showUserProfile(Model model, Principal principal) throws IOException {
@@ -42,11 +54,56 @@ public class UserController {
 		
 		if(entity == null) return "redirect:/";
 		
+		ActivityOrder activityOrder = new ActivityOrder();
+		
+/*Page<ActivityOrder> page = activityOrderService.findAllActivityOrder();*/
+		
+
+		
+//		List<ActivityOrder> acTionOrd = activityOrderService.findAllActivityOrder();
+//		for(int i = 0; i < acTionOrd.size(); i++) {
+//			String image = acTionOrd.get(i).getStickerImage();
+//			acTionOrd.get(i).setStickerImage(
+//					CustomFileUtils.getImage(
+//							"acTionOrdder_" + acTionOrd.get(i).getId(), 
+//							image));
+//		}
+		
+		
 		UserProfileRequest request = UserMapper.entityToUserProfile(entity);
+		
 		model.addAttribute("userProfile", request);
 		model.addAttribute("imageSrc",
 				CustomFileUtils.getImage("user_" + entity.getId(), entity.getImagePath()));
+		model.addAttribute("findAllActivityOrder", activityOrderService.findAllActivityOrder());
+		model.addAttribute("imageActivityOrder",CustomFileUtils.getImage("activityOrder_" + activityOrder.getId(), activityOrder.getStickerImage()));
 		return "user/profile";
+	}
+	
+	@GetMapping("/finalyBuy/{activityOrderId}")
+	public String finalyBuy(@PathVariable("activityOrderId") int activityOrderId) {
+	ActivityOrder actionOrder = activityOrderService.findActivityOrderById(activityOrderId);
+	HistorySell historySell = HistorySellMapper.stickerBuyOnHistorySell(actionOrder);
+		historySellService.saveHistorySell(historySell);	
+	
+		stickerSafeService.deleteStickerSafe(activityOrderId);
+		activityOrderService.deleteByActivityOrder(activityOrderId);
+		return "redirect:/user";
+	}
+	@GetMapping("/finalyReturn/{activityOrderId}")
+	public String finalyReturn(@PathVariable("activityOrderId") int activityOrderId) {
+		StickerSafe stickerSafe = stickerSafeService.findOneStickerSafe(activityOrderId);
+		Sticker sticker = StickerSafeMapper.stickerSafeOnSticker(stickerSafe);
+		stickerService.saveSticker(sticker);
+		stickerSafeService.deleteStickerSafe(activityOrderId);
+//		ActivityOrder activityOrder = activityOrderService.findActivityOrderById(activityOrderId);
+//		
+//		HistorySell historySell = HistorySellMapper.stickerBuyOnHistorySell(activityOrder);
+	//	
+		//historySellService.saveHistorySell(historySell);
+		
+		activityOrderService.deleteByActivityOrder(activityOrderId);
+		return "redirect:/user";
 	}
 	
 	@GetMapping("/edit/{userId}")
@@ -133,5 +190,8 @@ public class UserController {
 		model.addAttribute("stickerList", sticker);
 		return "user/advs";
 	}
+	
+	
+
 	
 }

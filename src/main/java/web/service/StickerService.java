@@ -25,4 +25,6 @@ public interface StickerService {
 
 	Sticker deleteBuy(int id);
 	
+	Sticker findStickerById(int id);
+	
 }

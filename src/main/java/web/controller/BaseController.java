@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,13 +27,19 @@ import web.domain.LoginRequest;
 import web.domain.RegisterRequest;
 import web.domain.ShowSelect;
 import web.domain.StickerNameFilter;
+import web.entity.ActivityOrder;
 import web.entity.Sticker;
+import web.entity.StickerSafe;
 import web.entity.UserEntity;
 import web.entity.enumeration.Country;
 import web.entity.enumeration.StickerType;
+import web.mapper.ActivityOrderMapper;
 import web.mapper.StickerMapper;
+import web.mapper.StickerSafeMapper;
 import web.mapper.UserMapper;
 import web.repository.StickerRepository;
+import web.service.ActivityOrderService;
+import web.service.StickerSafeService;
 import web.service.StickerService;
 import web.service.UserService;
 import web.service.utils.CustomFileUtils;
@@ -41,10 +48,18 @@ import web.service.utils.CustomFileUtils;
 public class BaseController {
 	@Autowired StickerService stickerService;
 	@Autowired private UserService userService;
+	@Autowired ActivityOrderService activityOrderService;
+	@Autowired StickerSafeService stickerSafeService;
+	
+	@ModelAttribute("stickerTypes")
+    public StickerType[] stickerTypes()
+    {
+        return StickerType.values();
+    }
 	
 	
 	@GetMapping({"/", "/home"})
-	public String shoHome(Model model, @PageableDefault Pageable pageable) throws IOException {
+	public String shoHome(Model model, @PageableDefault Pageable pageable, @ModelAttribute("stickerTypes")StickerType stickerTypeModel) throws IOException {
 
 		
 		Page<Sticker> page = stickerService.findAllStickerByPage(pageable);
@@ -54,8 +69,7 @@ public class BaseController {
 		int end = Math.min(begin + 5, page.getNumber());
 		
 		
-		
-		ShowSelect ss = new ShowSelect();
+		StickerType select;
 		StickerType[] st;
 		st = StickerType.values();
 
@@ -71,7 +85,12 @@ public class BaseController {
 		}
 		
 		
-		model.addAttribute("select", st);
+		List<StickerType> stickerType = new ArrayList<>();
+		
+		
+		
+		
+		model.addAttribute("select", StickerType.values());
 		model.addAttribute("stickerList", sticker);
 		model.addAttribute("stickersList", page);
 		model.addAttribute("beginIndex", begin);
@@ -82,8 +101,7 @@ public class BaseController {
 		
 	return "home";
 	}
-	
-	
+
 //@PostMapping({"/", "/home"})
 //	public String showHome(Model model) {
 //			
@@ -107,7 +125,11 @@ public class BaseController {
 	}
 	
 	@GetMapping("/select")
-	public String showSelectDrop( Model model) throws IOException {
+	public String showSelectDrop( Model model, @ModelAttribute("stickerTypes")StickerType stickerTypeModel) throws IOException {
+		List<StickerType> stickerType = new ArrayList<>();
+		StickerType select;
+		StickerType[] st;
+		st = StickerType.values();
 		
 		model.addAttribute("select", StickerType.values());
 		
@@ -162,7 +184,25 @@ UserEntity user = userService.blockUser(userId);
 	@GetMapping("/buy/{stickerId}")
 	public String buy(Model model,@PathVariable("stickerId") int stickerId) {
 		
-		//Sticker sticker = stickerService.findUserById(stickerId);
+		Sticker sticker = stickerService.findStickerById(stickerId);
+		//UserEntity user = userService.findUserById(id);
+		//ActivityOrder activityOrder = new ActivityOrder();
+		
+//		ActivityOrder activityOrder = new ActivityOrder();
+//		activityOrder
+		
+		
+		//activityOrderService.saveAddToActivity(new ActivityOrder(sticker.getName(),sticker.getPrice(), sticker.getUser().getFirstName(), activityOrder.getDate()));
+		
+		StickerSafe stickerSafe = StickerSafeMapper.stickerOnStickerSafe(sticker);
+		
+		stickerSafeService.saveStickerSafe(stickerSafe);
+		
+		
+		ActivityOrder activityOrder = ActivityOrderMapper.stickerOnActivityOrder(sticker);
+		
+		activityOrderService.saveAddToActivity(activityOrder);
+		
 		stickerService.deleteByBuy(stickerId);
 
 		    

@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -54,6 +55,22 @@ public class Sticker extends BaseEntity {
 	
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
+	
+
+	@OneToOne(mappedBy="sticker", fetch = FetchType.LAZY, cascade = {
+			CascadeType.DETACH, 
+			CascadeType.MERGE, 
+			CascadeType.PERSIST, 
+			CascadeType.REFRESH})
+	private ActivityOrder activityOrder;
+	
+	
+	@OneToOne(mappedBy="sticker", fetch = FetchType.LAZY, cascade = {
+			CascadeType.DETACH, 
+			CascadeType.MERGE, 
+			CascadeType.PERSIST, 
+			CascadeType.REFRESH})
+	private StickerSafe stickerSafe;
 
 
 	public Sticker(String name, BigDecimal price, StickerType stickerType, AboutSticker aboutSticker,

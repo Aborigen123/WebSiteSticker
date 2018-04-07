@@ -97,4 +97,9 @@ public class StickerServiceImpl implements StickerService{
 		return sticker;
 				 
 	}
+
+	@Override
+	public Sticker findStickerById(int id) {
+		return stickerRepository.findOne(id);
+	}
 }
