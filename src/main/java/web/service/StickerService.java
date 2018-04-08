@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import web.domain.StickerNameFilter;
 import web.entity.Sticker;
 import web.entity.UserEntity;
+import web.entity.enumeration.StickerType;
 
 public interface StickerService {
 
@@ -26,5 +27,7 @@ public interface StickerService {
 	Sticker deleteBuy(int id);
 	
 	Sticker findStickerById(int id);
+	
+	List<Sticker> findStickerType(String stickerType);
 	
 }

@@ -9,10 +9,23 @@
 <script src="${rootUrl}/resources/js/vue.min.js"></script>
   <script>
 new Vue({
+	el: "#app",
+	data:{
+		carEntitys: [],
+		serverUrl: "http://localhost:8080/api/v1"
+	},
+	methods: {
+		
+	function handSelect(myForm){
+		var selindex = myForm.selectList.selectedIndex;
+		var choose = myForm.selectList.[selindex].name;
+	}
+	mounted(){
+		this.getCarEntitys();
+		
+	}
 	
 });
-
-
 </script>
 <!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  -->
 <div class="panel panel-default">
@@ -91,17 +104,16 @@ ${stickeName.id} | ${stickeName.name} | ${stickeName.price}
 </c:forEach> --%>
 
 <%--  <--select problem here --%>
- <%--  <form action="/select"  > 
-  		
-					
-<label class="control-label">Choose your type sticker</label>
-							<form:select path="StickerType" cssClass="form-control">
-									<form:option items="${select}" var ="st"> </form:option>
-										<form:option value="${st}"></form:option>
-							</form:select>
+	<form action="/select" name="myForm">
+<select name="stickerType" id="stickerType"  name="selectList" id="selectList" onchange="handSelect(this.form)" >
+    <option value="StickerType" ></option>
+    <c:forEach items="${stickerType}" var="value"  >
+       <option>${value}</option>
+    </c:forEach>
+</select>
+</form>
 
- </form>   --%>
-
+<!-- 	path="stickerType" id="stickerType" itemValue="stickerType" itemLabel="stickerType"  -->
 <%-- <form>
 <form:select path="stickerType">
 <form:options items="${select}"/>

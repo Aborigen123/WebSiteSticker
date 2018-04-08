@@ -2,6 +2,7 @@ package web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -52,9 +53,9 @@ public class BaseController {
 	@Autowired StickerSafeService stickerSafeService;
 	
 	@ModelAttribute("stickerTypes")
-    public StickerType[] stickerTypes()
+    public List<StickerType> stickerTypes()
     {
-        return StickerType.values();
+        return Arrays.asList(StickerType.values());
     }
 	
 	
@@ -85,12 +86,14 @@ public class BaseController {
 		}
 		
 		
-		List<StickerType> stickerType = new ArrayList<>();
+		//List<StickerType> stickerType = new ArrayList<>();
 		
 		
+		   List <StickerType> stickerType = stickerType = new ArrayList<StickerType> (Arrays.asList(StickerType.values()));
 		
-		
-		model.addAttribute("select", StickerType.values());
+		   
+		   
+		model.addAttribute("stickerType", StickerType.values());
 		model.addAttribute("stickerList", sticker);
 		model.addAttribute("stickersList", page);
 		model.addAttribute("beginIndex", begin);
@@ -125,13 +128,13 @@ public class BaseController {
 	}
 	
 	@GetMapping("/select")
-	public String showSelectDrop( Model model, @ModelAttribute("stickerTypes")StickerType stickerTypeModel) throws IOException {
+	public String showSelectDrop( Model model, @ModelAttribute("stickerTypes")String stickerTypeModel) throws IOException {
 		List<StickerType> stickerType = new ArrayList<>();
 		StickerType select;
 		StickerType[] st;
 		st = StickerType.values();
 		
-		model.addAttribute("select", StickerType.values());
+		model.addAttribute("select", stickerTypeModel);
 		
 		return "home";
 	}

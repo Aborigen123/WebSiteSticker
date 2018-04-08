@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import web.domain.StickerNameFilter;
 import web.entity.Sticker;
 import web.entity.UserEntity;
+import web.entity.enumeration.StickerType;
 import web.repository.StickerRepository;
 import web.service.StickerService;
 
@@ -102,4 +103,14 @@ public class StickerServiceImpl implements StickerService{
 	public Sticker findStickerById(int id) {
 		return stickerRepository.findOne(id);
 	}
+
+	@Override
+	public List<Sticker> findStickerType(String stickerType) {
+	
+		return stickerRepository.findAll();
+	}
+
+	
+
+
 }
