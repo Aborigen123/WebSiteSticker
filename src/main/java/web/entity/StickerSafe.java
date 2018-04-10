@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -43,8 +44,15 @@ public class StickerSafe extends BaseEntity {
 	@Column(name = "sticker_image")
 	private String stickerImage;
 	
-//	@Column(name = "user_id")
-//	private UserEntity user;
+/*	@ManyToOne(fetch = FetchType.LAZY, cascade = {
+			CascadeType.DETACH, 
+			CascadeType.MERGE, 
+			CascadeType.PERSIST, 
+			CascadeType.REFRESH
+	})
+	
+	@JoinColumn(name = "user_id")
+	private UserEntity user;*/
 	
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import web.entity.ActivityOrder;
 import web.entity.Sticker;
+import web.entity.UserEntity;
 import web.repository.ActivityOrderRepository;
 import web.repository.StickerRepository;
 import web.service.ActivityOrderService;
@@ -40,6 +41,24 @@ public class ActivityOrderServiceImpl implements ActivityOrderService {
 	public void deleteByActivityOrder(int id) {
 		activityOrderRepository.delete(id);
 		
+	}
+
+//	@Override
+//	public ActivityOrder addCustomer(String email) {
+//		
+//		ActivityOrder activityOrder = activityOrderRepository.addCustomer(email);
+//		
+//		activityOrder.setUserCustomer(email);
+//		 
+//		activityOrderRepository.save(activityOrder);
+//				 
+//		return activityOrder;
+//	}
+
+	@Override
+	public ActivityOrder selectActivetyOrderByParticularUser(String userCustomer) {
+	
+		return activityOrderRepository.selectActivetyOrderByParticularUser(userCustomer);
 	}
 
 //	@Override

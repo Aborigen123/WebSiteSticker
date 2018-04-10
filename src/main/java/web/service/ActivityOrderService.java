@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.List;
 
 import web.entity.ActivityOrder;
+import web.entity.UserEntity;
 
 public interface ActivityOrderService {
 	
@@ -18,4 +19,7 @@ public interface ActivityOrderService {
 
 //void saveAddToActivityOrder1(String name, BigDecimal price, String firstName);
  
+ //ActivityOrder addCustomer(String email);
+ 
+ ActivityOrder selectActivetyOrderByParticularUser(String userCustomer);
 }

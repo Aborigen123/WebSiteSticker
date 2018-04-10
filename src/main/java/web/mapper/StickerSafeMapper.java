@@ -16,7 +16,7 @@ public interface StickerSafeMapper {
 		stickerSafe.setStickerType(sticker.getStickerType());
 		stickerSafe.setAboutSticker(sticker.getAboutSticker());
 		stickerSafe.setStickerImage(sticker.getStickerImage());
-	//	stickerSafe.setUser(sticker.getUser());
+	//stickerSafe.setUser(sticker.getUser());
 		return stickerSafe;
 	}
 	
@@ -29,7 +29,7 @@ public interface StickerSafeMapper {
 		sticker.setAboutSticker(stickerSafe.getAboutSticker());
 		sticker.setStickerImage(stickerSafe.getStickerImage());
 		
-	//	stickerSafe.setUser(sticker.getUser());
+	//stickerSafe.setUser(sticker.getUser());
 		return sticker;
 	}
 }

@@ -43,7 +43,8 @@ public class ActivityOrder extends BaseEntity {
 	@JoinColumn(name = "sticker_image")
 	private String stickerImage;
 	
-	
+	@Column(name = "user_customer")
+	private String userCustomer;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = {
 			CascadeType.DETACH, 

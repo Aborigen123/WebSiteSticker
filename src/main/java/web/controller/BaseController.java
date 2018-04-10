@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -185,25 +186,19 @@ UserEntity user = userService.blockUser(userId);
 	}
 	
 	@GetMapping("/buy/{stickerId}")
-	public String buy(Model model,@PathVariable("stickerId") int stickerId) {
+	public String buy(Model model,@PathVariable("stickerId") int stickerId, Principal principal) {
+	//	UserEntity entity = userService.findUserByEmail(principal.getName());
 		
 		Sticker sticker = stickerService.findStickerById(stickerId);
-		//UserEntity user = userService.findUserById(id);
-		//ActivityOrder activityOrder = new ActivityOrder();
 		
-//		ActivityOrder activityOrder = new ActivityOrder();
-//		activityOrder
-		
-		
-		//activityOrderService.saveAddToActivity(new ActivityOrder(sticker.getName(),sticker.getPrice(), sticker.getUser().getFirstName(), activityOrder.getDate()));
 		
 		StickerSafe stickerSafe = StickerSafeMapper.stickerOnStickerSafe(sticker);
-		
+
 		stickerSafeService.saveStickerSafe(stickerSafe);
 		
 		
 		ActivityOrder activityOrder = ActivityOrderMapper.stickerOnActivityOrder(sticker);
-		
+		activityOrder.setUserCustomer(principal.getName());
 		activityOrderService.saveAddToActivity(activityOrder);
 		
 		stickerService.deleteByBuy(stickerId);

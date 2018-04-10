@@ -55,6 +55,8 @@ public class UserController {
 		if(entity == null) return "redirect:/";
 		
 		ActivityOrder activityOrder = new ActivityOrder();
+	//	activityOrderService.selectActivetyOrderByParticularUser(principal.getName());
+		
 		
 /*Page<ActivityOrder> page = activityOrderService.findAllActivityOrder();*/
 		
@@ -75,7 +77,10 @@ public class UserController {
 		model.addAttribute("userProfile", request);
 		model.addAttribute("imageSrc",
 				CustomFileUtils.getImage("user_" + entity.getId(), entity.getImagePath()));
-		model.addAttribute("findAllActivityOrder", activityOrderService.findAllActivityOrder());
+		String userGet = principal.getName();
+	ActivityOrder ao = activityOrderService.selectActivetyOrderByParticularUser(userGet);
+	//	model.addAttribute("findAllActivityOrder", activityOrderService.findAllActivityOrder());
+		model.addAttribute("findAllActivityOrder", 	ao);
 		model.addAttribute("imageActivityOrder",CustomFileUtils.getImage("activityOrder_" + activityOrder.getId(), activityOrder.getStickerImage()));
 		return "user/profile";
 	}

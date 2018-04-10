@@ -29,7 +29,7 @@ public class SpringBootConsulttionTestProjectApplication extends SpringBootServl
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(SpringBootConsulttionTestProjectApplication.class, args);
 		addAdmin(context);
-		addSticker(context);
+	//	addSticker(context);
 		addUser(context);
 		
 	}
