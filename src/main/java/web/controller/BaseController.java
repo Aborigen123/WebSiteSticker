@@ -204,6 +204,7 @@ UserEntity user = userService.blockUser(userId);
 		stickerService.deleteByBuy(stickerId);
 
 		    
+		
 		return "redirect:/";
 	}
 	
