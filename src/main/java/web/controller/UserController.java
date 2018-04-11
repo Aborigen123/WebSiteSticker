@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+import org.hibernate.loader.custom.Return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -86,9 +87,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/finalyBuy/{activityOrderId}")
-	public String finalyBuy(@PathVariable("activityOrderId") int activityOrderId) {
+	public String finalyBuy(@PathVariable("activityOrderId") int activityOrderId, Principal principal) {
 	ActivityOrder actionOrder = activityOrderService.findActivityOrderById(activityOrderId);
 	HistorySell historySell = HistorySellMapper.stickerBuyOnHistorySell(actionOrder);
+	historySell.setUserBuy(principal.getName());
 		historySellService.saveHistorySell(historySell);	
 	
 		stickerSafeService.deleteStickerSafe(activityOrderId);
@@ -144,7 +146,7 @@ public class UserController {
 		return "redirect:/user";
 	}
 	
-	// --- Advertisement
+	
 	
 	@GetMapping("/{userId}/create")
 	public String createAdvertisement(
@@ -196,7 +198,25 @@ public class UserController {
 		return "user/advs";
 	}
 	
+	@GetMapping("/activityorder")
+	public String showActivityOrder(Model model, Principal principal)  {
 	
+		String userGet = principal.getName();
+		ActivityOrder ao = activityOrderService.selectActivetyOrderByParticularUser(userGet);
+		//	model.addAttribute("findAllActivityOrder", activityOrderService.findAllActivityOrder());
+			model.addAttribute("findAllActivityOrder", 	ao);
+	model.addAttribute("name", userGet);
+		return "user/activityorder";
+	}
+	
+@GetMapping("/history")
+public String showHistory(Model model, Principal principal) {
+	String userGet = principal.getName();
+	HistorySell hs = historySellService.findParticularUserHistoryBuy(userGet);
+	
+	model.addAttribute("findParticularHistory", hs);
+	model.addAttribute("name",userGet);
 
-	
+	return "user/history";
+}
 }

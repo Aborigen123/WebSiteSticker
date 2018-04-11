@@ -34,8 +34,12 @@ private String name;
 	private Date date;
 	
 
-	@JoinColumn(name = "sticker_image")
+	@Column(name = "sticker_image")
 	private String stickerImage;
+	
+	@Column(name = "user_buy")
+	private String userBuy;
+	
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = {
 			CascadeType.DETACH, 

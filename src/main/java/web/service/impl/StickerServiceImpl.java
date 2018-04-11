@@ -42,20 +42,7 @@ public class StickerServiceImpl implements StickerService{
 		
 		return stickerRepository.findAll(request);
 	}
-//	@Override
-//	public void random() {
-//		
-//		for(int i = 0; i<40; i++) {
-//			Sticker sticker = new Sticker();
-//			sticker.setName("Name #"+1);
-//			
-//			Sticker savedSticker = stickerRepository.save(sticker);
-//			
-//		}
-//
-//		
-//	}
-//	
+
 
 	@Override
 	public Page<Sticker> findStickerByName(Pageable pageable, StickerNameFilter filter) {

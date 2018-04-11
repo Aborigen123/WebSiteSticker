@@ -111,6 +111,7 @@ ${stickeName.id} | ${stickeName.name} | ${stickeName.price}
        <option>${value}</option>
     </c:forEach>
 </select>
+<input type="submit" value="Choose">
 </form>
 
 <!-- 	path="stickerType" id="stickerType" itemValue="stickerType" itemLabel="stickerType"  -->

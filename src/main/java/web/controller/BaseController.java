@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -90,11 +92,9 @@ public class BaseController {
 		//List<StickerType> stickerType = new ArrayList<>();
 		
 		
-		   List <StickerType> stickerType = stickerType = new ArrayList<StickerType> (Arrays.asList(StickerType.values()));
-		
+		List<String> stickerTypes = Stream.of(StickerType.values()).map(StickerType::name).collect(Collectors.toList());
 		   
-		   
-		model.addAttribute("stickerType", StickerType.values());
+		model.addAttribute("stickerType", stickerTypes);
 		model.addAttribute("stickerList", sticker);
 		model.addAttribute("stickersList", page);
 		model.addAttribute("beginIndex", begin);

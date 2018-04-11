@@ -16,8 +16,11 @@ import web.entity.UserEntity;
 @Repository
 public interface StickerRepository extends JpaRepository<Sticker, Integer>,JpaSpecificationExecutor<Sticker>{
 
-	@Query("SELECT s FROM Sticker s WHERE s.stickerType = :stickerType")
-	List<Sticker> findStickerType(@Param("stickerType") String stickerType);
+	/*@Query("SELECT s FROM Sticker s WHERE s.stickerType = :stickerType")
+	List<Sticker> findStickerType(@Param("stickerType") String stickerType);*/
+	
+	@Query("SELECT s FROM Sticker s WHERE s.stickerType in :stickerType")
+	List<Sticker> findStickerType(@Param("stickerType") List<String> stickerType);
 
 	@Query("SELECT u FROM UserEntity u WHERE u.email = :email")
 	UserEntity findUserByEmail(@Param("email") String email);

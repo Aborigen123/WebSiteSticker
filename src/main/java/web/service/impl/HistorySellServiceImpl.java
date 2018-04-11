@@ -32,4 +32,10 @@ public class HistorySellServiceImpl implements HistorySellService {
 		return historySellRepository.findOne(id);
 	}
 
+	@Override
+	public HistorySell findParticularUserHistoryBuy(String userBuy) {
+		
+		return historySellRepository.findParticularUserHistoryBuy(userBuy);
+	}
+
 }

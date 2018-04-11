@@ -12,4 +12,6 @@ public interface HistorySellService {
 	List<HistorySell> findAllHistorySell();
 	
 	HistorySell findHistorySellById(int id);
+	
+	HistorySell	findParticularUserHistoryBuy(String userBuy);
 }
