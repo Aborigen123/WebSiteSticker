@@ -90,7 +90,6 @@ public class UserController {
 	public String finalyBuy(@PathVariable("activityOrderId") int activityOrderId, Principal principal) {
 	ActivityOrder actionOrder = activityOrderService.findActivityOrderById(activityOrderId);
 	HistorySell historySell = HistorySellMapper.stickerBuyOnHistorySell(actionOrder);
-	historySell.setUserBuy(principal.getName());
 		historySellService.saveHistorySell(historySell);	
 	
 		stickerSafeService.deleteStickerSafe(activityOrderId);
@@ -153,6 +152,11 @@ public class UserController {
 			@PathVariable("userId") int userId,  
 			Model model, 
 			Principal principal) {
+UserEntity entity1 = userService.findUserByEmail(principal.getName());
+		
+		if(entity1.getBlock() == true) {
+			return "redirect:/block";
+		}else {
 		UserEntity entity = userService.findUserByEmail(principal.getName());
 		CreateAdvRequest advRequest = new CreateAdvRequest();
 		advRequest.setEntity(entity);
@@ -165,7 +169,7 @@ public class UserController {
 		
 		
 		return "user/create-adv";
-	}
+	}}
 	
 	@PostMapping("/{userId}/create")
 	public String createAdvertisementForm(

@@ -23,6 +23,7 @@ public interface UserService {
 
 	UserEntity blockUser(int id);
 	
+	UserEntity unblockUser(int id);
 	
 	
 

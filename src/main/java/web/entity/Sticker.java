@@ -45,6 +45,8 @@ public class Sticker extends BaseEntity {
 	@Column(name = "sticker_image")
 	private String stickerImage;
 	
+	@Column(name="bought")
+	private Boolean bought = false;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {
 			CascadeType.DETACH, 

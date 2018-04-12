@@ -24,5 +24,8 @@ public interface StickerRepository extends JpaRepository<Sticker, Integer>,JpaSp
 
 	@Query("SELECT u FROM UserEntity u WHERE u.email = :email")
 	UserEntity findUserByEmail(@Param("email") String email);
+	
+/*	@Query("SELECT u FROM UserEntity u left join u.Sticker  ON UserEntity.id = Sticker.user  WHERE u.block = true and  u.email = :email ")
+	UserEntity findUserBlock(@Param("email") String email);*/
 
 }

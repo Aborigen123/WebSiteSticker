@@ -70,5 +70,15 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public UserEntity unblockUser(int id) {
+	UserEntity user = userRepository.findOne(id);
+		
+		user.setBlock(false);
+		 
+		userRepository.save(user);
+				 
+		return user;
+	}
 
 }

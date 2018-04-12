@@ -148,12 +148,12 @@ ${stickeName.id} | ${stickeName.name} | ${stickeName.price}
 					<sec:authorize access="isAuthenticated()">
 						<div class="row">
 							<div class="col-md-6">
-								<a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span>add to basket</a> 
+								<a  href="${pageContext.request.contextPath}/nowbuy/${sticker.id}" class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span>Buy</a> 
 							</div>
 							<c:choose>
 							<c:when test="${!sticker.user.block}">
 							<div class="col-md-6">
-								<a href="${pageContext.request.contextPath}/buy/${sticker.id}" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></div>
+								<a href="${pageContext.request.contextPath}/buy/${sticker.id}" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> add to activity</a></div>
 						</c:when>
 						<c:otherwise>
 							<div class="col-md-6">

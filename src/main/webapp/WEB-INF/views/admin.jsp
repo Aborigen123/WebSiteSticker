@@ -27,6 +27,7 @@
 <th>${user.lastName} </th>
 <th>${user.role}</th>
 <th>${user.block}</th>
+<th> <a href="${pageContext.request.contextPath}/adminun/${user.id}">unblock</a></th>
 <th> <a href="${pageContext.request.contextPath}/admin/${user.id}">block</a></th>
 <%-- <th><a href="${pageContext.request.contextPath}/delete">block</a></th> --%>
 </tr></thead></table></div></div>

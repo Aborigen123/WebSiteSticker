@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import web.domain.BlockReload;
 import web.domain.EditUserRequest;
@@ -32,28 +32,33 @@ import web.domain.RegisterRequest;
 import web.domain.ShowSelect;
 import web.domain.StickerNameFilter;
 import web.entity.ActivityOrder;
+import web.entity.HistorySell;
 import web.entity.Sticker;
 import web.entity.StickerSafe;
 import web.entity.UserEntity;
 import web.entity.enumeration.Country;
 import web.entity.enumeration.StickerType;
 import web.mapper.ActivityOrderMapper;
+import web.mapper.HistorySellMapper;
 import web.mapper.StickerMapper;
 import web.mapper.StickerSafeMapper;
 import web.mapper.UserMapper;
 import web.repository.StickerRepository;
 import web.service.ActivityOrderService;
+import web.service.HistorySellService;
 import web.service.StickerSafeService;
 import web.service.StickerService;
 import web.service.UserService;
 import web.service.utils.CustomFileUtils;
 
 @Controller
+@SessionAttributes("countries, stickerType")
 public class BaseController {
 	@Autowired StickerService stickerService;
 	@Autowired private UserService userService;
 	@Autowired ActivityOrderService activityOrderService;
 	@Autowired StickerSafeService stickerSafeService;
+	@Autowired HistorySellService historySellService;
 	
 	@ModelAttribute("stickerTypes")
     public List<StickerType> stickerTypes()
@@ -175,6 +180,17 @@ public class BaseController {
 	public String changeBlock(@PathVariable("userId") int userId) {
 
 UserEntity user = userService.blockUser(userId);
+
+
+		
+	return "redirect:/admin";
+}
+	
+	@GetMapping("/adminun/{userId}")
+	public String unchangeBlock(@PathVariable("userId") int userId) {
+
+
+UserEntity user = userService.unblockUser(userId);
 		
 	return "redirect:/admin";
 }
@@ -187,27 +203,59 @@ UserEntity user = userService.blockUser(userId);
 	
 	@GetMapping("/buy/{stickerId}")
 	public String buy(Model model,@PathVariable("stickerId") int stickerId, Principal principal) {
-	//	UserEntity entity = userService.findUserByEmail(principal.getName());
+		UserEntity entity = userService.findUserByEmail(principal.getName());
+		Sticker sticker1 = stickerService.findStickerById(stickerId);
 		
+		if(entity.getBlock() == true) {
+			return "redirect:/block";
+		}else if (sticker1.getBought() == true) {
+			return "redirect:/stickeralreadybuy";}else {
 		Sticker sticker = stickerService.findStickerById(stickerId);
-		
-		
+		sticker.setBought(true);
 		StickerSafe stickerSafe = StickerSafeMapper.stickerOnStickerSafe(sticker);
-
 		stickerSafeService.saveStickerSafe(stickerSafe);
 		
 		
 		ActivityOrder activityOrder = ActivityOrderMapper.stickerOnActivityOrder(sticker);
 		activityOrder.setUserCustomer(principal.getName());
 		activityOrderService.saveAddToActivity(activityOrder);
-		
-		stickerService.deleteByBuy(stickerId);
-
-		    
-		
+			}
 		return "redirect:/";
 	}
 	
-
+@GetMapping("/block")
+public String block() {
 	
+	return"block";
+}
+
+@GetMapping("/stickeralreadybuy")
+public String stickeralreadybuy() {
+	
+	return"stickeralreadybuy";
+}
+@GetMapping("/nowbuy/{stickerId}")
+public String nowbuy(Model model,@PathVariable("stickerId") int stickerId, Principal principal) {
+	UserEntity entity = userService.findUserByEmail(principal.getName());
+	Sticker sticker1 = stickerService.findStickerById(stickerId);
+	
+	if(entity.getBlock() == true) {
+		return "redirect:/block";
+	}else if (sticker1.getBought() == true) {
+		return "redirect:/stickeralreadybuy";}else {
+
+		Sticker sticker = stickerService.findStickerById(stickerId);
+		String userGet = principal.getName();
+		HistorySell hs = historySellService.findParticularUserHistoryBuy(userGet);
+		
+		HistorySell historySell = HistorySellMapper.nowBuy(sticker);
+		historySell.setUserBuy(principal.getName());
+		historySellService.saveHistorySell(historySell);
+		
+		model.addAttribute("findParticularHistory", hs);
+		
+		stickerService.deleteByBuy(stickerId);
+	}
+	return "redirect:/";
+}
 }

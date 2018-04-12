@@ -43,17 +43,7 @@ public class ActivityOrderServiceImpl implements ActivityOrderService {
 		
 	}
 
-//	@Override
-//	public ActivityOrder addCustomer(String email) {
-//		
-//		ActivityOrder activityOrder = activityOrderRepository.addCustomer(email);
-//		
-//		activityOrder.setUserCustomer(email);
-//		 
-//		activityOrderRepository.save(activityOrder);
-//				 
-//		return activityOrder;
-//	}
+
 
 	@Override
 	public ActivityOrder selectActivetyOrderByParticularUser(String userCustomer) {
@@ -61,17 +51,5 @@ public class ActivityOrderServiceImpl implements ActivityOrderService {
 		return activityOrderRepository.selectActivetyOrderByParticularUser(userCustomer);
 	}
 
-//	@Override
-	//public void saveAddToActivity1(String name, BigDecimal price, String firstName) {
-//		Sticker sticker = stickerRepository.findStickerById(stickerId);
-//		//Sticker sticker = new Sticker();
-//		ActivityOrder activityOrder = new ActivityOrder();
-	//	Sticker sticker = stickerRepository.findOne(id);
-		
-	//	activityOrderRepository.save(String name, BigDecimal price, String firstName);
-		
-		
-		
-//	}
 
 }
